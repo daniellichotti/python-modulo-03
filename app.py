@@ -33,6 +33,19 @@ def get_task(id):
     
   return jsonify({"message": "Nao foi possivel encontrar a atividade"}), 404
 
+@app.route('/tasks/<int:id>', methods=['PUT'])
+def update_tasks(id):
+  task = None
+  for t in tasks:
+    if t.id == id:
+      task = t
+  if task == None:
+    return jsonify({"message": "Nao foi possiel encontrar a atividade"}), 404
+  data = request.get_json()
+  task.title = data["title"]
+  task.description = data["description"]
+  task.completed = data["completed"]
+  return jsonify({"message": "Tarefa atualizada com sucesso"})
 
 if __name__ == "__main__":
   app.run(debug=True)
